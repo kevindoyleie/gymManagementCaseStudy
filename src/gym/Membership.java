@@ -18,20 +18,20 @@ public class Membership extends Entity
     }
 
     private MemberType memberType;
-    private User user;
+    private Member member;
     private Date joinDate = new Date();
     private Date expiryDate = new Date();
     private Calendar calendar = GregorianCalendar.getInstance();
 
-    public Membership(MemberType memberType, User user)
+    public Membership(MemberType memberType, Member member)
     {
         this.memberType = memberType;
-        this.user = user;
+        this.member = member;
     }
 
-    public User getUser()
+    public Member getMember()
     {
-        return user;
+        return member;
     }
 
     public MemberType getType()

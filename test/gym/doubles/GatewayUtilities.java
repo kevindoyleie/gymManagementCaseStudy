@@ -19,9 +19,8 @@ public class GatewayUtilities<T extends Entity>
     public List<T> getEntities()
     {
         List<T> clonedEntities = new ArrayList<T>();
-        for (T entity : entities.values()) {
+        for (T entity : entities.values())
             addCloneToList(entity, clonedEntities);
-        }
         return clonedEntities;
     }
 
@@ -38,9 +37,8 @@ public class GatewayUtilities<T extends Entity>
 
     public T save(T entity)
     {
-        if (entity.getId() == null) {
+        if (entity.getId() == null)
             entity.setId(UUID.randomUUID().toString());
-        }
         String id = entity.getId();
         saveCloneInMap(id, entity);
         return entity;

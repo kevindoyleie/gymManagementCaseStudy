@@ -1,8 +1,8 @@
 package gym;
 
 
+import gym.doubles.InMemoryMemberGateway;
 import gym.doubles.InMemoryMembershipGateway;
-import gym.doubles.InMemoryUserGateway;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,20 +21,49 @@ import static org.junit.Assert.assertTrue;
 
 public class TestGym
 {
-    private User user;
+    private Member member;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("d/M/yyyy");
     Calendar today = Calendar.getInstance();
 
     @Before
     public void setUp() throws Exception
     {
-        user = new User();
+        member = new Member();
         setupContext();
+    }
+
+    public static void setupSampleData() throws Exception
+    {
+        setupContext();
+
+        Member member1 = new Member("Kevin Doyle");
+        member1.setType("member");
+        member1.setPhoneNumber("0868579577");
+        member1.setHeight("183");
+        member1.setWeight("114kg");
+        Member member2 = new Member("Alan Doyle");
+        member2.setType("member");
+        member2.setPhoneNumber("0868579577");
+        member2.setHeight("183");
+        member2.setWeight("114kg");
+
+        Context.memberGateway.save(member1);
+        Context.memberGateway.save(member2);
+
+        Membership m1 = new Membership(THREEMONTHS, member1);
+        m1.setJoinDate(new Date());
+
+
+        Membership m2 = new Membership(YEAR, member2);
+        m2.setJoinDate(dateFormat.parse("15/03/2014"));
+
+        Context.membershipGateway.save(m1);
+        Context.membershipGateway.save(m2);
     }
 
     public static void setupContext()
     {
-        Context.userGateway = new InMemoryUserGateway();
+        Context.memberGateway = new InMemoryMemberGateway();
         Context.membershipGateway = new InMemoryMembershipGateway();
     }
 
@@ -59,24 +88,25 @@ public class TestGym
     @Test
     public void createNew99DayMember() throws Exception
     {
-        user.setUserName("Kevin Doyle");
-        user.setType("member");
-        user.setPhoneNumber("0868579577");
-        user.setHeight("183");
-        user.setWeight("114kg");
-        Context.userGateway.save(user);
+        member.setMemberName("Kevin Doyle");
+        member.setType("member");
+        member.setPhoneNumber("0868579577");
+        member.setHeight("183");
+        member.setWeight("114kg");
+        Context.memberGateway.save(member);
 
-        User kevin = Context.userGateway.findUserByName("Kevin Doyle");
+        Member kevin = Context.memberGateway.findMemberByName("Kevin Doyle");
         Membership membership = new Membership(NINTYNINEDAYS, kevin);
         membership.setJoinDate(dateFormat.parse("28/10/2014"));
         Context.membershipGateway.save(membership);
 
-        assertEquals("Kevin Doyle", kevin.getUserName());
+        assertEquals("Kevin Doyle", kevin.getMemberName());
         assertFalse(kevin.isAdmin());
         assertEquals("0868579577", kevin.getPhoneNumber());
         assertEquals("183", kevin.getHeight());
         assertEquals("114kg", kevin.getWeight());
-        assertTrue(kevin.isMember(NINTYNINEDAYS, kevin));
+        // Membership has expired.
+        assertFalse(kevin.isMember(NINTYNINEDAYS, kevin));
         assertEquals(dateFormat.parse("28/10/2014"), kevin.getJoinDate(NINTYNINEDAYS, kevin));
         assertEquals(dateFormat.parse("04/02/2015"), kevin.getExpiryDate(kevin));
     }
@@ -84,19 +114,19 @@ public class TestGym
     @Test
     public void createNewAdminUser() throws Exception
     {
-        user.setUserName("James Fennelly");
-        user.setType("admin");
-        user.setPhoneNumber("999");
-        user.setHeight("189");
-        user.setWeight("118kg");
-        Context.userGateway.save(user);
+        member.setMemberName("James Fennelly");
+        member.setType("admin");
+        member.setPhoneNumber("999");
+        member.setHeight("189");
+        member.setWeight("118kg");
+        Context.memberGateway.save(member);
 
-        User james = Context.userGateway.findUserByName("James Fennelly");
+        Member james = Context.memberGateway.findMemberByName("James Fennelly");
         Membership membership = new Membership(TRAINER, james);
         membership.setJoinDate(dateFormat.parse("1/1/2012"));
         Context.membershipGateway.save(membership);
 
-        assertEquals("James Fennelly", james.getUserName());
+        assertEquals("James Fennelly", james.getMemberName());
         assertTrue(james.isAdmin());
         assertEquals("999", james.getPhoneNumber());
         assertEquals("189", james.getHeight());
@@ -107,19 +137,19 @@ public class TestGym
     @Test
     public void createNewOneYearMember() throws Exception
     {
-        user.setUserName("Alan Doyle");
-        user.setType("member");
-        user.setPhoneNumber("0868579577");
-        user.setHeight("181");
-        user.setWeight("93.5kg");
-        Context.userGateway.save(user);
+        member.setMemberName("Alan Doyle");
+        member.setType("member");
+        member.setPhoneNumber("0868579577");
+        member.setHeight("181");
+        member.setWeight("93.5kg");
+        Context.memberGateway.save(member);
 
-        User alan = Context.userGateway.findUserByName("Alan Doyle");
+        Member alan = Context.memberGateway.findMemberByName("Alan Doyle");
         Membership membership = new Membership(YEAR, alan);
         membership.setJoinDate(today.getTime());
         Context.membershipGateway.save(membership);
 
-        assertEquals("Alan Doyle", alan.getUserName());
+        assertEquals("Alan Doyle", alan.getMemberName());
         assertFalse(alan.isAdmin());
         assertEquals("0868579577", alan.getPhoneNumber());
         assertEquals("181", alan.getHeight());
@@ -132,19 +162,19 @@ public class TestGym
     @Test
     public void createNewThreeMonthMember() throws Exception
     {
-        user.setUserName("Sean Dowd");
-        user.setType("member");
-        user.setPhoneNumber("0868579577");
-        user.setHeight("180");
-        user.setWeight("91kg");
-        Context.userGateway.save(user);
+        member.setMemberName("Sean Dowd");
+        member.setType("member");
+        member.setPhoneNumber("0868579577");
+        member.setHeight("180");
+        member.setWeight("91kg");
+        Context.memberGateway.save(member);
 
-        User sean = Context.userGateway.findUserByName("Sean Dowd");
+        Member sean = Context.memberGateway.findMemberByName("Sean Dowd");
         Membership membership = new Membership(THREEMONTHS, sean);
         membership.setJoinDate(today.getTime());
         Context.membershipGateway.save(membership);
 
-        assertEquals("Sean Dowd", sean.getUserName());
+        assertEquals("Sean Dowd", sean.getMemberName());
         assertFalse(sean.isAdmin());
         assertTrue(sean.isMember(THREEMONTHS, sean));
         assertEquals(today.getTime(), sean.getJoinDate(THREEMONTHS, sean));
@@ -154,18 +184,19 @@ public class TestGym
     @Test
     public void expiredMember() throws Exception
     {
-        user.setUserName("Harry Doyle");
-        user.setType("Member");
-        user.setHeight("100");
-        user.setWeight("25kg");
-        Context.userGateway.save(user);
+        member.setMemberName("Harry Doyle");
+        member.setType("Member");
+        member.setHeight("100");
+        member.setWeight("25kg");
+        Context.memberGateway.save(member);
 
-        User harry = Context.userGateway.findUserByName("Harry Doyle");
+        Member harry = Context.memberGateway.findMemberByName("Harry Doyle");
         Membership membership = new Membership(MONTH, harry);
         membership.setJoinDate(dateFormat.parse("23/9/2014"));
         Context.membershipGateway.save(membership);
 
         assertFalse(harry.isMember(MONTH, harry));
     }
+
 
 }

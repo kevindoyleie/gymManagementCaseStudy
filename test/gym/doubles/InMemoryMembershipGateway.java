@@ -1,8 +1,8 @@
 package gym.doubles;
 
+import gym.Member;
 import gym.Membership;
 import gym.MembershipGateway;
-import gym.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,12 @@ import java.util.List;
 
 public class InMemoryMembershipGateway extends GatewayUtilities<Membership> implements MembershipGateway
 {
-    public List<Membership> findMembershipForUser(User user)
+    public List<Membership> findMembershipForMember(Member member)
     {
         List<Membership> results = new ArrayList<Membership>();
-        for (Membership member : getEntities()) {
-            if (member.getUser().isSame(user))
-                results.add(member);
-        }
+        for (Membership membership : getEntities())
+            if (membership.getMember().isSame(member))
+                results.add(membership);
         return results;
     }
 }
