@@ -1,6 +1,6 @@
 package gym.doubles;
 
-import gym.Entity;
+import gym.entities.Entity;
 
 import java.lang.CloneNotSupportedException;import java.lang.RuntimeException;import java.lang.String;import java.lang.SuppressWarnings;import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,12 +13,12 @@ public class GatewayUtilities<T extends Entity>
 
     public GatewayUtilities()
     {
-        this.entities = new HashMap<String, T>();
+        this.entities = new HashMap<>();
     }
 
     public List<T> getEntities()
     {
-        List<T> clonedEntities = new ArrayList<T>();
+        List<T> clonedEntities = new ArrayList<>();
         for (T entity : entities.values())
             addCloneToList(entity, clonedEntities);
         return clonedEntities;

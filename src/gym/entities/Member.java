@@ -1,5 +1,7 @@
-package gym;
+package gym.entities;
 
+
+import gym.Context;
 
 import java.util.Date;
 import java.util.List;

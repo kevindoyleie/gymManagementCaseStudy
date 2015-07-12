@@ -2,8 +2,8 @@ package gym.utilities;
 
 
 import gym.Context;
-import gym.Member;
-import gym.Membership;
+import gym.entities.Member;
+import gym.entities.Membership;
 import gym.TestGym;
 import gym.socketserver.SocketServer;
 import gym.view.ViewTemplate;

@@ -1,4 +1,4 @@
-package gym;
+package gym.entities;
 
 import java.util.Objects;
 

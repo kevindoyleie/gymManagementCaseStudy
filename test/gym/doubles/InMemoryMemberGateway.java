@@ -1,8 +1,9 @@
 package gym.doubles;
 
 
-import gym.Member;
-import gym.MemberGateway;import java.lang.String;
+import gym.entities.Member;
+import gym.gateways.MemberGateway;
+import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +20,7 @@ public class InMemoryMemberGateway extends GatewayUtilities<Member>  implements 
     @Override
     public List<Member> findMembersByName(String name)
     {
-        List<Member> members = new ArrayList<Member>();
+        List<Member> members = new ArrayList<>();
         for (Member member : getEntities())
             if (member.getMemberName().equals(name))
                 members.add(member);

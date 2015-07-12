@@ -1,5 +1,6 @@
 package gym;
 
+import gym.entities.Entity;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;

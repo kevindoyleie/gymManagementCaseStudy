@@ -3,18 +3,21 @@ package gym;
 
 import gym.doubles.InMemoryMemberGateway;
 import gym.doubles.InMemoryMembershipGateway;
+import gym.entities.Member;
+import gym.entities.Membership;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-import static gym.Membership.MemberType.MONTH;
-import static gym.Membership.MemberType.NINTYNINEDAYS;
-import static gym.Membership.MemberType.THREEMONTHS;
-import static gym.Membership.MemberType.TRAINER;
-import static gym.Membership.MemberType.YEAR;
+import static gym.entities.Membership.MemberType.MONTH;
+import static gym.entities.Membership.MemberType.NINTYNINEDAYS;
+import static gym.entities.Membership.MemberType.THREEMONTHS;
+import static gym.entities.Membership.MemberType.TRAINER;
+import static gym.entities.Membership.MemberType.YEAR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -67,11 +70,11 @@ public class TestGym
         Context.membershipGateway = new InMemoryMembershipGateway();
     }
 
-    private Date nintyNineDaysFromToday()
-    {
-        today.add(Calendar.DAY_OF_MONTH, 99);
-        return today.getTime();
-    }
+//    private Date nintyNineDaysFromToday()
+//    {
+//        today.add(Calendar.DAY_OF_MONTH, 99);
+//        return today.getTime();
+//    }
 
     private Date threeMonthsFromToday()
     {
@@ -198,5 +201,41 @@ public class TestGym
         assertFalse(harry.isMember(MONTH, harry));
     }
 
+    @Test
+    public void findMemberByPhone() throws Exception
+    {
+        member.setMemberName("Sean Dowd");
+        member.setType("member");
+        member.setPhoneNumber("0868579577");
+        member.setHeight("180");
+        member.setWeight("91kg");
+        Context.memberGateway.save(member);
 
+        Member sean = Context.memberGateway.findMemberByName("Sean Dowd");
+        Membership membership = new Membership(THREEMONTHS, sean);
+        membership.setJoinDate(today.getTime());
+        Context.membershipGateway.save(membership);
+
+        Member test = Context.memberGateway.findMemberByPhoneNumber("0868579577");
+        assertEquals("Sean Dowd", test.getMemberName());
+    }
+
+    @Test
+    public void findMembersByName() throws Exception
+    {
+        setupSampleData();
+        Member member1 = new Member("Kevin Doyle");
+        member1.setType("member");
+        member1.setPhoneNumber("0868569566");
+        member1.setHeight("173");
+        member1.setWeight("70kg");
+        Context.memberGateway.save(member1);
+        Membership m1 = new Membership(YEAR, member1);
+        m1.setJoinDate(dateFormat.parse("15/03/2014"));
+        Context.membershipGateway.save(m1);
+
+        List<Member> test = Context.memberGateway.findMembersByName("Kevin Doyle");
+        assertFalse(test.isEmpty());
+        assertEquals(2, test.size());
+    }
 }

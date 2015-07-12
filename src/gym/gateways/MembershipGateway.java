@@ -1,5 +1,8 @@
-package gym;
+package gym.gateways;
 
+
+import gym.entities.Member;
+import gym.entities.Membership;
 
 import java.util.List;
 

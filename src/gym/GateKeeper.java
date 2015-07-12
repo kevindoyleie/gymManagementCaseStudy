@@ -1,6 +1,8 @@
 package gym;
 
 
+import gym.entities.Member;
+
 public class GateKeeper
 {
     private Member loggedInMember;

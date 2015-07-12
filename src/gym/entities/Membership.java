@@ -1,14 +1,14 @@
-package gym;
+package gym.entities;
 
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import static gym.Membership.MemberType.NINTYNINEDAYS;
-import static gym.Membership.MemberType.MONTH;
-import static gym.Membership.MemberType.THREEMONTHS;
-import static gym.Membership.MemberType.YEAR;
+import static gym.entities.Membership.MemberType.NINTYNINEDAYS;
+import static gym.entities.Membership.MemberType.MONTH;
+import static gym.entities.Membership.MemberType.THREEMONTHS;
+import static gym.entities.Membership.MemberType.YEAR;
 
 public class Membership extends Entity
 {
