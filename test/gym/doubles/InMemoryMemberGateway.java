@@ -36,4 +36,13 @@ public class InMemoryMemberGateway extends GatewayUtilities<Member>  implements 
         return null;
     }
 
+    @Override
+    public List<Member> findAllMembers()
+    {
+        List<Member> members = new ArrayList<>();
+        for (Member member : getEntities())
+            members.add(member);
+        return members;
+    }
+
 }

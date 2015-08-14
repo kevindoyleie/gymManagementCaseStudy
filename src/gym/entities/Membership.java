@@ -61,6 +61,12 @@ public class Membership extends Entity
         return expiryDate.after(today.getTime());
     }
 
+    public boolean isExpired()
+    {
+        Calendar today = Calendar.getInstance();
+        return expiryDate.before(today.getTime());
+    }
+
     private void setExpiryDate()
     {
         calendar.setTime(joinDate);

@@ -10,12 +10,30 @@ import java.util.List;
 
 public class InMemoryMembershipGateway extends GatewayUtilities<Membership> implements MembershipGateway
 {
-    public List<Membership> findMembershipForMember(Member member)
+    @Override
+    public List<Membership> findMembershipsForMember(Member member)
     {
         List<Membership> results = new ArrayList<>();
         for (Membership membership : getEntities())
             if (membership.getMember().isSame(member))
                 results.add(membership);
+        return results;
+    }
+
+    public Membership findMembershipForMember(Member member)
+    {
+        for (Membership membership : getEntities())
+            if (membership.getMember().isSame(member))
+                return membership;
+        return null;
+    }
+
+    @Override
+    public List<Membership> findAllMemberships()
+    {
+        List<Membership> results = new ArrayList<>();
+        for (Membership membership : getEntities())
+            results.add(membership);
         return results;
     }
 }

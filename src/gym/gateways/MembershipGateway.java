@@ -10,5 +10,9 @@ public interface MembershipGateway
 {
     Membership save(Membership membership);
 
-    List<Membership> findMembershipForMember(Member member);
+    List<Membership> findMembershipsForMember(Member member);
+
+    Membership findMembershipForMember(Member member);
+
+    List<Membership> findAllMemberships();
 }

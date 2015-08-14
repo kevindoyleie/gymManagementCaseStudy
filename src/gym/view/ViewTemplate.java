@@ -11,6 +11,7 @@ public class ViewTemplate
 
     public static ViewTemplate create(String templateResource) throws IOException
     {
+        System.out.println(templateResource);
         URL url = ClassLoader.getSystemResource(templateResource);
         byte[] bytes = Files.readAllBytes(Paths.get(url.getPath()));
         return new ViewTemplate(new String(bytes));

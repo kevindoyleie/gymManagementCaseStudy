@@ -82,7 +82,7 @@ public class Member extends Entity
 
     public boolean isMember(Membership.MemberType memberType, Member member)
     {
-        List<Membership> members = Context.membershipGateway.findMembershipForMember(member);
+        List<Membership> members = Context.membershipGateway.findMembershipsForMember(member);
         for (Membership m : members)
             if (m.getType() == memberType && m.isMember())
                 return true;
@@ -91,7 +91,7 @@ public class Member extends Entity
 
     public Date getJoinDate(Membership.MemberType memberType, Member member)
     {
-        List<Membership> members = Context.membershipGateway.findMembershipForMember(member);
+        List<Membership> members = Context.membershipGateway.findMembershipsForMember(member);
         for (Membership m : members)
             if (m.getType() == memberType)
                 return m.getJoinDate();
@@ -100,7 +100,7 @@ public class Member extends Entity
 
     public Date getExpiryDate(Member member)
     {
-        List<Membership> members = Context.membershipGateway.findMembershipForMember(member);
+        List<Membership> members = Context.membershipGateway.findMembershipsForMember(member);
         for (Membership m : members)
             if (m.getMember() == member)
                 return m.getExpiryDate();

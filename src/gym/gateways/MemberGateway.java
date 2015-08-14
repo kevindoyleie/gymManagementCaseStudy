@@ -13,4 +13,6 @@ public interface MemberGateway
     List<Member> findMembersByName(String name);
 
     Member findMemberByPhoneNumber(String phoneNumber);
+
+    List<Member> findAllMembers();
 }
